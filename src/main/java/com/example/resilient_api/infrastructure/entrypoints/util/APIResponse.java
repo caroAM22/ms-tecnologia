@@ -1,6 +1,6 @@
 package com.example.resilient_api.infrastructure.entrypoints.util;
 
-import com.example.resilient_api.infrastructure.entrypoints.dto.UserDTO;
+import com.example.resilient_api.infrastructure.entrypoints.dto.TechDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +21,6 @@ public class APIResponse {
     private String message;
     private String identifier;
     private String date;
-    private UserDTO data;
+    private TechDTO data;
     private List<ErrorDTO> errors;
 }

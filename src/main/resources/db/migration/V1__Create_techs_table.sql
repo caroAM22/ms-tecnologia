@@ -1,0 +1,5 @@
+CREATE TABLE techs (
+    id VARCHAR(36) PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    description VARCHAR(90) NOT NULL
+);

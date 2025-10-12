@@ -1,13 +1,13 @@
 package com.example.resilient_api.infrastructure.entrypoints.handler;
 
-import com.example.resilient_api.domain.api.UserServicePort;
 import com.example.resilient_api.domain.enums.TechnicalMessage;
 import com.example.resilient_api.domain.exceptions.BusinessException;
 import com.example.resilient_api.domain.exceptions.TechnicalException;
-import com.example.resilient_api.infrastructure.entrypoints.dto.UserDTO;
-import com.example.resilient_api.infrastructure.entrypoints.mapper.UserMapper;
+import com.example.resilient_api.infrastructure.entrypoints.dto.TechDTO;
 import com.example.resilient_api.infrastructure.entrypoints.util.APIResponse;
 import com.example.resilient_api.infrastructure.entrypoints.util.ErrorDTO;
+import com.example.resilient_api.domain.api.TechServicePort;
+import com.example.resilient_api.infrastructure.entrypoints.mapper.TechMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
-import reactor.util.context.Context;
 
 import java.time.Instant;
 import java.util.List;
@@ -26,21 +25,24 @@ import static com.example.resilient_api.infrastructure.entrypoints.util.Constant
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class UserHandlerImpl {
+public class TechHandlerImpl {
 
-    private final UserServicePort userServicePort;
-    private final UserMapper userMapper;
+    private final TechServicePort techServicePort;
+    private final TechMapper techMapper;
 
-    public Mono<ServerResponse> createUser(ServerRequest request) {
+    public Mono<ServerResponse> createTech(ServerRequest request) {
         String messageId = getMessageId(request);
-        return request.bodyToMono(UserDTO.class)
-                .flatMap(user -> userServicePort.registerUser(userMapper.userDTOToUser(user), messageId)
-                        .doOnSuccess(savedUser -> log.info("User created successfully with messageId: {}", messageId))
-                )
-                .flatMap(savedUser -> ServerResponse
+        return request.bodyToMono(TechDTO.class)
+                .doOnNext(techDTO -> log.info("Received TechDTO: name={}, description={}", techDTO.getName(), techDTO.getDescription()))
+                .flatMap(techDTO -> {
+                    var tech = techMapper.techDTOToTech(techDTO);
+                    log.info("Mapped Tech: name={}, description={}", tech.name(), tech.description());
+                    return techServicePort.registerTech(tech)
+                            .doOnSuccess(savedTech -> log.info("Tech created successfully with messageId: {}", messageId));
+                })
+                .flatMap(savedTech -> ServerResponse
                         .status(HttpStatus.CREATED)
-                        .bodyValue(TechnicalMessage.USER_CREATED.getMessage()))
-                .contextWrite(Context.of(X_MESSAGE_ID, messageId))
+                        .bodyValue(TechnicalMessage.TECH_CREATED.getMessage()))
                 .doOnError(ex -> log.error(USER_ERROR, ex))
                 .onErrorResume(BusinessException.class, ex -> buildErrorResponse(
                         HttpStatus.BAD_REQUEST,

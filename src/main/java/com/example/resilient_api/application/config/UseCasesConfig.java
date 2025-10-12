@@ -1,29 +1,28 @@
 package com.example.resilient_api.application.config;
 
-import com.example.resilient_api.domain.spi.EmailValidatorGateway;
-import com.example.resilient_api.domain.spi.UserPersistencePort;
-import com.example.resilient_api.domain.usecase.UserUseCase;
-import com.example.resilient_api.domain.api.UserServicePort;
-import com.example.resilient_api.infrastructure.adapters.persistenceadapter.UserPersistenceAdapter;
-import com.example.resilient_api.infrastructure.adapters.persistenceadapter.mapper.UserEntityMapper;
-import com.example.resilient_api.infrastructure.adapters.persistenceadapter.repository.UserRepository;
+import com.example.resilient_api.domain.spi.TechPersistencePort;
+import com.example.resilient_api.infrastructure.adapters.persistenceadapter.TechPersistenceAdapter;
+import com.example.resilient_api.infrastructure.adapters.persistenceadapter.repository.TechRepository;
+import com.example.resilient_api.infrastructure.adapters.persistenceadapter.mapper.TechEntityMapper;
 import lombok.RequiredArgsConstructor;
+import com.example.resilient_api.domain.usecase.TechUseCase;
+import com.example.resilient_api.domain.api.TechServicePort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor
 public class UseCasesConfig {
-        private final UserRepository userRepository;
-        private final UserEntityMapper userEntityMapper;
+        private final TechRepository techRepository;
+        private final TechEntityMapper techEntityMapper;
 
         @Bean
-        public UserPersistencePort usersPersistencePort() {
-                return new UserPersistenceAdapter(userRepository,userEntityMapper);
+        public TechPersistencePort techPersistencePort() {
+                return new TechPersistenceAdapter(techRepository,techEntityMapper);
         }
 
         @Bean
-        public UserServicePort usersServicePort(UserPersistencePort usersPersistencePort, EmailValidatorGateway emailValidatorGateway){
-                return new UserUseCase(usersPersistencePort, emailValidatorGateway);
+        public TechServicePort usersServicePort(TechPersistencePort usersPersistencePort){
+                return new TechUseCase(techPersistencePort());
         }
 }
