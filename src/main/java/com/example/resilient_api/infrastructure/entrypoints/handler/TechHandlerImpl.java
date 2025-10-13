@@ -75,6 +75,14 @@ public class TechHandlerImpl {
                 });
     }
 
+    public Mono<ServerResponse> getTech(ServerRequest request) {
+        String id = request.pathVariable("id");
+        return techServicePort.getTechById(id)
+                .map(techMapper::techToTechDTO)
+                .flatMap(techDTO -> ServerResponse.ok().bodyValue(techDTO))
+                .switchIfEmpty(ServerResponse.notFound().build());
+    }
+
     private Mono<ServerResponse> buildErrorResponse(HttpStatus httpStatus, String identifier, TechnicalMessage error,
                                                     List<ErrorDTO> errors) {
         return Mono.defer(() -> {

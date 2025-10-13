@@ -48,4 +48,9 @@ public class TechUseCase implements TechServicePort {
         return Mono.empty();
     }
 
+    @Override
+    public Mono<Tech> getTechById(String id) {
+        return techPersistencePort.findById(id);
+    }
+
 }

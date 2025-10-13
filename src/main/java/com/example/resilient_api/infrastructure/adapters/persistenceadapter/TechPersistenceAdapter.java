@@ -27,4 +27,10 @@ public class TechPersistenceAdapter implements TechPersistencePort {
                 .defaultIfEmpty(false);
     }
 
+    @Override
+    public Mono<Tech> findById(String id) {
+        return techRepository.findById(id)
+                .map(techEntityMapper::toModel);
+    }
+
 }

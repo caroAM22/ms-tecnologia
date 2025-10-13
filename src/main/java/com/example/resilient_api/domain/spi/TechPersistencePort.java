@@ -6,4 +6,5 @@ import reactor.core.publisher.Mono;
 public interface TechPersistencePort {
     Mono<Tech> save(Tech user);
     Mono<Boolean> existByName(String name);
+    Mono<Tech> findById(String id);
 }
