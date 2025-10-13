@@ -106,4 +106,26 @@ class TechUseCaseTest {
                 .expectError(BusinessException.class)
                 .verify();
     }
+
+    @Test
+    void shouldGetTechByIdSuccessfully() {
+        String techId = "123e4567-e89b-12d3-a456-426614174000";
+        Tech expectedTech = new Tech(UUID.fromString(techId), "Java", "Programming language");
+        
+        when(mockPort.findById(techId)).thenReturn(Mono.just(expectedTech));
+
+        StepVerifier.create(useCase.getTechById(techId))
+                .expectNext(expectedTech)
+                .verifyComplete();
+    }
+
+    @Test
+    void shouldReturnEmptyWhenTechNotFound() {
+        String techId = "123e4567-e89b-12d3-a456-426614174000";
+        
+        when(mockPort.findById(techId)).thenReturn(Mono.empty());
+
+        StepVerifier.create(useCase.getTechById(techId))
+                .verifyComplete();
+    }
 }

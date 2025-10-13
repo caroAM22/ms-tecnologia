@@ -5,4 +5,5 @@ import reactor.core.publisher.Mono;
 
 public interface TechServicePort {
     Mono<Tech> registerTech(Tech tech);
+    Mono<Tech> getTechById(String id);
 }
