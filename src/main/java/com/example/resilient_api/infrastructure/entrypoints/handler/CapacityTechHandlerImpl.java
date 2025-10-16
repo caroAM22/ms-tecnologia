@@ -43,4 +43,11 @@ public class CapacityTechHandlerImpl {
                 .collectList()
                 .flatMap(techDTOs -> ServerResponse.ok().bodyValue(techDTOs));
     }
+    
+    public Mono<ServerResponse> deleteCapacityTechRelations(ServerRequest request) {
+        String capacityId = request.pathVariable("capacityId");
+        return capacityTechServicePort.deleteByCapacityId(capacityId)
+                .then(ServerResponse.noContent().build())
+                .onErrorResume(ex -> ServerResponse.badRequest().bodyValue("Error deleting capacity-tech relations: " + ex.getMessage()));
+    }
 }

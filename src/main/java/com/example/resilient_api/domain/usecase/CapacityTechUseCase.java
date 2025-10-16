@@ -46,4 +46,9 @@ public class CapacityTechUseCase implements CapacityTechServicePort {
     public Flux<Tech> getTechsByCapacityId(String capacityId) {
         return capacityTechPersistencePort.getTechsByCapacityId(capacityId);
     }
+    
+    @Override
+    public Mono<Void> deleteByCapacityId(String capacityId) {
+        return capacityTechPersistencePort.deleteByCapacityId(capacityId);
+    }
 }

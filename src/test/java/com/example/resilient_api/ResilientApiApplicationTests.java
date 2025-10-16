@@ -6,7 +6,6 @@ class ResilientApiApplicationTests {
 
 	@Test
 	void contextLoads() {
-		// Basic test without Spring context
 		org.junit.jupiter.api.Assertions.assertNotNull(ResilientApiApplication.class);
 	}
 

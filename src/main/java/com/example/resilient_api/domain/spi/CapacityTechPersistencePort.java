@@ -9,4 +9,8 @@ public interface CapacityTechPersistencePort {
     Mono<CapacityTech> save(CapacityTech capacityTech);
     Mono<Boolean> existsByCapacityIdAndTechId(String capacityId, String techId);
     Flux<Tech> getTechsByCapacityId(String capacityId);
+    Mono<Long> countCapacitiesByTechId(String techId);
+    Mono<Void> deleteByCapacityId(String capacityId);
+    Mono<Void> deleteByTechId(String techId);
+    Flux<String> getCapacitiesByTechId(String techId);
 }

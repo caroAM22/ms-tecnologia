@@ -32,5 +32,9 @@ public class TechPersistenceAdapter implements TechPersistencePort {
         return techRepository.findById(id)
                 .map(techEntityMapper::toModel);
     }
-
+    
+    @Override
+    public Mono<Void> deleteById(String id) {
+        return techRepository.deleteById(id);
+    }
 }

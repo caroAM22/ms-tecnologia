@@ -35,4 +35,25 @@ public class CapacityTechPersistenceAdapter implements CapacityTechPersistencePo
                 .map(entity -> entity.getTechId())
                 .flatMap(techPersistencePort::findById);
     }
+    
+    @Override
+    public Mono<Long> countCapacitiesByTechId(String techId) {
+        return capacityTechRepository.countByTechId(techId);
+    }
+    
+    @Override
+    public Mono<Void> deleteByCapacityId(String capacityId) {
+        return capacityTechRepository.deleteByCapacityId(capacityId);
+    }
+    
+    @Override
+    public Mono<Void> deleteByTechId(String techId) {
+        return capacityTechRepository.deleteByTechId(techId);
+    }
+    
+    @Override
+    public Flux<String> getCapacitiesByTechId(String techId) {
+        return capacityTechRepository.findByTechId(techId)
+                .map(entity -> entity.getCapacityId());
+    }
 }
