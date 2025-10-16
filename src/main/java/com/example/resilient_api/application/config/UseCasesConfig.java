@@ -1,18 +1,12 @@
 package com.example.resilient_api.application.config;
 
-import com.example.resilient_api.domain.api.CapacityTechServicePort;
-import com.example.resilient_api.domain.spi.CapacityTechPersistencePort;
-import com.example.resilient_api.domain.spi.TechPersistencePort;
-import com.example.resilient_api.domain.usecase.CapacityTechUseCase;
-import com.example.resilient_api.infrastructure.adapters.persistenceadapter.CapacityTechPersistenceAdapter;
-import com.example.resilient_api.infrastructure.adapters.persistenceadapter.TechPersistenceAdapter;
-import com.example.resilient_api.infrastructure.adapters.persistenceadapter.mapper.CapacityTechEntityMapper;
-import com.example.resilient_api.infrastructure.adapters.persistenceadapter.repository.CapacityTechRepository;
-import com.example.resilient_api.infrastructure.adapters.persistenceadapter.repository.TechRepository;
-import com.example.resilient_api.infrastructure.adapters.persistenceadapter.mapper.TechEntityMapper;
+import com.example.resilient_api.domain.api.*;
+import com.example.resilient_api.domain.spi.*;
+import com.example.resilient_api.domain.usecase.*;
+import com.example.resilient_api.infrastructure.adapters.persistenceadapter.*;
+import com.example.resilient_api.infrastructure.adapters.persistenceadapter.mapper.*;
+import com.example.resilient_api.infrastructure.adapters.persistenceadapter.repository.*;
 import lombok.RequiredArgsConstructor;
-import com.example.resilient_api.domain.usecase.TechUseCase;
-import com.example.resilient_api.domain.api.TechServicePort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -42,5 +36,10 @@ public class UseCasesConfig {
         @Bean
         public CapacityTechServicePort capacityTechServicePort() {
                 return new CapacityTechUseCase(capacityTechPersistencePort());
+        }
+        
+        @Bean
+        public TechSagaUseCase techSagaUseCase() {
+                return new TechSagaUseCase(capacityTechPersistencePort(), techPersistencePort());
         }
 }

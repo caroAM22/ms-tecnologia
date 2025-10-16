@@ -72,4 +72,14 @@ class CapacityTechUseCaseTest {
         StepVerifier.create(useCase.getTechsByCapacityId(capacityId))
                 .verifyComplete();
     }
+    
+    @Test
+    void shouldDeleteByCapacityIdSuccessfully() {
+        String capacityId = "capacity-1";
+        
+        when(mockPort.deleteByCapacityId(capacityId)).thenReturn(Mono.empty());
+
+        StepVerifier.create(useCase.deleteByCapacityId(capacityId))
+                .verifyComplete();
+    }
 }

@@ -7,4 +7,5 @@ public interface TechPersistencePort {
     Mono<Tech> save(Tech user);
     Mono<Boolean> existByName(String name);
     Mono<Tech> findById(String id);
+    Mono<Void> deleteById(String id);
 }

@@ -8,4 +8,5 @@ import reactor.core.publisher.Mono;
 public interface CapacityTechServicePort {
     Mono<CapacityTech> assignTechToCapacity(CapacityTech capacityTech);
     Flux<Tech> getTechsByCapacityId(String capacityId);
+    Mono<Void> deleteByCapacityId(String capacityId);
 }

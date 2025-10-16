@@ -8,4 +8,8 @@ import reactor.core.publisher.Mono;
 public interface CapacityTechRepository extends R2dbcRepository<CapacityTechEntity, String> {
     Mono<Boolean> existsByCapacityIdAndTechId(String capacityId, String techId);
     Flux<CapacityTechEntity> findByCapacityId(String capacityId);
+    Mono<Long> countByTechId(String techId);
+    Mono<Void> deleteByCapacityId(String capacityId);
+    Mono<Void> deleteByTechId(String techId);
+    Flux<CapacityTechEntity> findByTechId(String techId);
 }
